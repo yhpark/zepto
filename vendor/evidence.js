@@ -786,7 +786,11 @@ Logger.NOTSET   = 0;
       if (params) {
         params = params.slice(0);
         params.unshift(template);
-        c[method].apply(c, params);
+        try {
+          c[method].apply(c, params);
+        } catch (e) {
+          c[method](params[0])
+        }
       } else {
         c[method](template);
       }

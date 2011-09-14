@@ -4,6 +4,7 @@
 
 var Zepto = (function() {
   var undefined, key, $$, classList, emptyArray = [], slice = emptyArray.slice,
+    supportsProto = '__proto__' in emptyArray,
     document = window.document,
     elementDisplay = {}, classCache = {},
     getComputedStyle = document.defaultView.getComputedStyle,
@@ -70,16 +71,21 @@ var Zepto = (function() {
 
   function Z(dom, selector){
     dom = dom || emptyArray;
-    dom.__proto__ = Z.prototype;
+    if (supportsProto) dom.__proto__ = Z.prototype;
+    else $.extend(dom, Z.prototype);
     dom.selector = selector || '';
     return dom;
   }
+
+  var isZ = supportsProto ?
+    function(obj) { return obj instanceof Z } :
+    function(obj) { return isA(obj) && 'eq' in obj };
 
   function $(selector, context){
     if (!selector) return Z();
     if (context !== undefined) return $(context).find(selector);
     else if (isF(selector)) return $(document).ready(selector);
-    else if (selector instanceof Z) return selector;
+    else if (isZ(selector)) return selector;
     else {
       var dom;
       if (isA(selector)) dom = compact(selector);
