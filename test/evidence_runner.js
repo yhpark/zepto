@@ -70,10 +70,9 @@
   for (var key in window) globals.push(key)
 
   function checkLeakedGlobals() {
-    var opera = /^Opera\b/.test(navigator.userAgent)
     for (var key in window)
       if ( globals.indexOf(key) < 0 && expected.indexOf(key) < 0 &&
-          (!opera || typeof window[key] != 'object' || window[key].id != key) &&
+          !(typeof window[key] == 'object' && (window[key].id === key || window[key].name === key)) &&
           window.console && console.warn
           )
         console.warn("unexpected global: " + key)
