@@ -564,11 +564,14 @@
         t.assertEqual("<span>world</span>", outerHTML(fragment.get(2)))
         t.assertEqual('', fragment.selector)
 
-        fragment = $("<div /><div />")
-        t.assertLength(2, fragment)
-
         fragment = $("<div>hello</div> ")
         t.assertLength(1, fragment)
+      },
+
+      testDollarWithFragmentSelfClosing: function(t){
+        var fragment = $("<div /><br /><span />")
+        t.assertLength(3, fragment)
+        t.assertEqual('DIV,BR,SPAN', fragment.pluck('nodeName').join(','))
       },
 
       testDollarFragmentAndProperties: function(t){
