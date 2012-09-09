@@ -98,6 +98,7 @@ var Zepto = (function() {
   // This function can be overriden in plugins for example to make
   // it compatible with browsers that don't support the DOM fully.
   zepto.fragment = function(html, name, properties) {
+    if (html == null) return []
     var nodes, dom, container
     if (name === undefined) name = fragmentRE.test(html) && RegExp.$1
     if (name && !RegExp.$3 && RegExp.$2 == '>')

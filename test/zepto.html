@@ -1358,6 +1358,13 @@
         t.assertEqual(html, table.html())
       },
 
+      testHtmlWithNonString: function(t){
+        var el = $('<div>')
+        t.assertEqual('12',    el.html(12).text())
+        t.assertEqual('',      el.html(null).text())
+        t.assertEqual('false', el.html(false).text())
+      },
+
       testText: function(t){
         t.assertEqual('Here is some text', $('div.texttest').text())
         t.assertEqual('And some more', $('#texttest2').text())
